@@ -1,0 +1,2 @@
+/Users/admin/markwave workspace/bufallo_visualizer/build/.cxx/release/4b50p6e5/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/admin/markwave workspace/bufallo_visualizer/build/.cxx/release/4b50p6e5/armeabi-v7a/CMakeFiles/rebuild_cache.dir
