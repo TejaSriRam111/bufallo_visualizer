@@ -726,8 +726,8 @@ class _MonthlyRevenueBreakWidgetState extends State<MonthlyRevenueBreakWidget> {
                                       _downloadPDF();
                                     }
                                   },
-                                  icon: const Icon(
-                                    Icons.download,
+                                  icon: Icon(
+                                    Icons.share,
                                     size: 16,
                                     color: Colors.white,
                                   ),
@@ -809,7 +809,7 @@ class _MonthlyRevenueBreakWidgetState extends State<MonthlyRevenueBreakWidget> {
                                 }
                               },
                               icon: const Icon(
-                                Icons.download,
+                                Icons.share,
                                 size: 16,
                                 color: Colors.white,
                               ),
