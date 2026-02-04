@@ -1,0 +1,69 @@
+Here is a basic example of how you could structure your GitHub Actions workflows for CI/CD and deployment using GitHub Actions, Vercel, and EC2. Please note that this is a simplified example and may need to be adjusted based on your specific project requirements.
+
+```yaml
+# .github/workflows/ci.yml (CI pipeline)
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Flutter
+        uses: flutter/setup-flutter@latest
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.dart_tool/cache
+          key: ${{ runner.os }}-flutter-dependencies
+      - name: Build
+        run: flutter build
+
+# .github/workflows/cd.yml (CD pipeline)
+name: CD
+on: [push]
+branches:
+  only:
+    - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}  # Use the branch that triggered the workflow
+      - name: Setup Flutter
+        uses: flutter/setup-flutter@latest
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.dart_tool/cache
+          key: ${{ runner.os }}-flutter-dependencies
+      - name: Build and Serve (Vercel)
+        uses: vercel/cli@latest
+        with:
+          command: deploy --prod
+      # Uncomment the following line to use Render instead of Vercel
+      # - name: Build and Deploy (Render)
+      #   uses: render/render-cli@latest
+      #   with:
+      #     command: deploy production
+      # For EC2 deployment, you would need to create an AWS ECS task definition, build a Docker image, push it to ECR, and run the AWS ECS CLI to deploy.
+
+# Example for deploying to EC2 (replace placeholders with your actual values)
+# - name: Build Docker Image
+#   runs-on: ubuntu-latest
+#   container: docker
+#   steps:
+#     - name: Build image
+#       run: docker build -t my-image . && docker push my-ecr-repo:latest
+# - name: Deploy to EC2
+#   uses: aws-actions/ecs-deploy@v3
+#   with:
+#     cluster: my-cluster
+#     taskDefinition: my-task-definition
+#     region: us-west-2
+```
+
+After deploying successfully, you can add the deployment URL as a comment using GitHub's REST API or Action. However, it is beyond the scope of this example to demonstrate that. You may want to look into the `actions/github-script` action for this purpose.
